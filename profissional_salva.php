@@ -1,7 +1,8 @@
 <?PHP
 /* Pagina de cadastro do profissional
-* data: 12 de março de 2018
+* data: 12 de marÃ§o de 2018
 * Obs: Teste de insercao de dados obrigatorios
+* aplicar a seguranca: https://www.devmedia.com.br/evitando-sql-injection-em-aplicacoes-php/27804
 */
 	
 	
@@ -12,10 +13,10 @@
     include "conbd.php"; 
 	 // obter dados do formulario
 	$NomeCompleto = strtoupper($_POST['nomecompleto']);
-	$Sexo = $_POST['selectsexo'];
-	$Naturalidade = $_POST['naturalde'];
-	$Nacionalidade = $_POST['nacionalidade'];
-	$DataNascimento = $_POST['datanasc'];
+	$Sexo = preg_replace('/[^[:alpha:]_]/', '', $_POST['selectsexo']);
+	$Naturalidade = preg_replace('/[^[:alpha:]_]/', '', $_POST['naturalde']);
+	$Nacionalidade = preg_replace('/[^[:alpha:]_]/', '', $_POST['nacionalidade']);
+	$DataNascimento = preg_replace('/[^[:alpha:]_]/', '', $_POST['datanasc']);
 	
 	function muda_data_amd($dt)
 {
@@ -29,12 +30,12 @@ return $data;
 $datanasc = muda_data_amd($DataNascimento);
 
 
-	$NumeroDoCPF = $_POST['numerocpf'];
-	$nridentidade = $_POST['identidade'];
-	$idemissor = $_POST['identidadeemissor'];
-	$EstadoCivil = $_POST['selectecivil'];
-	$titulopro = $_POST['selecttitulo'];
-	$creaRNP = $_POST['crearnp'];
+	$NumeroDoCPF = preg_replace('/[^[:alnum:]_]/', '', $_POST['numerocpf']);
+	$nridentidade = preg_replace('/[^[:alnum:]_]/', '', $_POST['identidade']);
+	$idemissor = preg_replace('/[^[:alnum:]_]/', '', $_POST['identidadeemissor']);
+	$EstadoCivil = preg_replace('/[^[:alpha:]_]/', '', $_POST['selectecivil']);
+	$titulopro = preg_replace('/[^[:alnum:]_]/', '', $_POST['selecttitulo']);
+	$creaRNP = preg_replace('/[^[:alnum:]_]/', '', $_POST['crearnp']);
 	$endrua = $_POST['enderecorua'];
 	$endnumero = $_POST['endereconr'];
 	$endbairro = $_POST['selectebairro'];
