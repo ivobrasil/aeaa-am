@@ -1,8 +1,7 @@
 <?PHP
 /* Pagina de cadastro do profissional
-* data: 12 de março de 2018
-* Obs: Teste de insercao de dados obrigatorios
-* aplicar a seguranca: https://www.devmedia.com.br/evitando-sql-injection-em-aplicacoes-php/27804
+* data: 26 de março de 2018
+* verificando seguranca
 */
 	
 	
@@ -10,13 +9,13 @@
 	
 
 	
-    include "conbd.php"; 
+     include "conbd.php"; 
 	 // obter dados do formulario
-	$NomeCompleto = strtoupper($_POST['nomecompleto']);
-	$Sexo = preg_replace('/[^[:alpha:]_]/', '', $_POST['selectsexo']);
-	$Naturalidade = preg_replace('/[^[:alpha:]_]/', '', $_POST['naturalde']);
-	$Nacionalidade = preg_replace('/[^[:alpha:]_]/', '', $_POST['nacionalidade']);
-	$DataNascimento = preg_replace('/[^[:alpha:]_]/', '', $_POST['datanasc']);
+	$NomeCompleto = preg_replace('/[^! @&\/\sA-Za-z0-9_] /', '', strtoupper($_POST['nomecompleto']));
+	$Sexo = preg_replace('/[ˆ[:alpha:]_] /', '', $_POST['selectsexo']);
+	$Naturalidade = preg_replace('/[^ ˜\/\sA-Za-z0-9_] /', '',$_POST['naturalde']);
+	$Nacionalidade = preg_replace('/[^ ˜\/\sA-Za-z0-9_] /', '',$_POST['nacionalidade']);
+	$DataNascimento = preg_replace('/[^ \/\s0-9_] /', '',$_POST['datanasc']);
 	
 	function muda_data_amd($dt)
 {
@@ -29,26 +28,25 @@ return $data;
 
 $datanasc = muda_data_amd($DataNascimento);
 
-
-	$NumeroDoCPF = preg_replace('/[^[:alnum:]_]/', '', $_POST['numerocpf']);
-	$nridentidade = preg_replace('/[^[:alnum:]_]/', '', $_POST['identidade']);
-	$idemissor = preg_replace('/[^[:alnum:]_]/', '', $_POST['identidadeemissor']);
-	$EstadoCivil = preg_replace('/[^[:alpha:]_]/', '', $_POST['selectecivil']);
-	$titulopro = preg_replace('/[^[:alnum:]_]/', '', $_POST['selecttitulo']);
-	$creaRNP = preg_replace('/[^[:alnum:]_]/', '', $_POST['crearnp']);
-	$endrua = $_POST['enderecorua'];
-	$endnumero = $_POST['endereconr'];
-	$endbairro = $_POST['selectebairro'];
-	$endcomp = $_POST['endcomplemento'];
-	$endcidade = $_POST['endcidade'];
-	$enduf = $_POST['selectuf'];
-	$endcep = $_POST['endcep'];
-	$dddtel = $_POST['dddtel'];
-	$numerotel = $_POST['numerotel'];
-	$dddcel = $_POST['dddcel'];
-	$numerocel = $_POST['numerocel'];
-	$endemail = $_POST['endemail'];
-	$situacaopro = $_POST['selectsit'];
+	$NumeroDoCPF = preg_replace('/[^0-9] /', '',$_POST['numerocpf']);
+	$nridentidade = preg_replace('/[^0-9] /', '',$_POST['identidade']);
+	$idemissor = preg_replace('/[^ \/\sA-Za-z0-9_] /', '',$_POST['identidadeemissor']);
+	$EstadoCivil = preg_replace('/[^ ()\/\sA-Za-z0-9_] /', '',$_POST['selectecivil']);
+	$titulopro = preg_replace('/[^0-9] /', '',$_POST['selecttitulo']);
+	$creaRNP = preg_replace('/[^0-9] /', '',$_POST['crearnp']);
+	$endrua = preg_replace('/[^ ().\/\sA-Za-z0-9_] /', '',$_POST['enderecorua']);
+	$endnumero = preg_replace('/[.\/\sA-Za-z0-9_] /', '',$_POST['endereconr']);
+	$endbairro = preg_replace('/[^0-9] /', '',$_POST['selectebairro']);
+	$endcomp = preg_replace('/[^ .-()\/\sA-Za-z0-9_] /', '',$_POST['endcomplemento']);
+	$endcidade = preg_replace('/[^ \/\sA-Za-z0-9_] /', '',$_POST['endcidade']);
+	$enduf = preg_replace('/[ˆ[:alpha:]_] /', '', $_POST['selectuf']);
+	$endcep = preg_replace('/[^ -.0-9_] /', '',$_POST['endcep']);
+	$dddtel = preg_replace('/[^0-9] /', '',$_POST['dddtel']);
+	$numerotel = preg_replace('/[^ -.0-9_] /', '',$_POST['numerotel']);
+	$dddcel = preg_replace('/[^0-9] /', '',$_POST['dddcel']);
+	$numerocel = preg_replace('/[^ -.0-9_] /', '',$_POST['numerocel']);
+	$endemail = preg_replace('/[^!<>.@&\/\sA-Za-z0-9_]/','', $_POST['endemail']);
+	$situacaopro = preg_replace('/[ˆ[:alpha:]_] /', '', $_POST['selectsit']);
 
 	// Inserir dados no banco
 	mysql_select_db("aeaaamor_controle, $conexao");
